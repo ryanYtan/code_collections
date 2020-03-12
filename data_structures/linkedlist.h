@@ -48,7 +48,7 @@ class linkedlist
         T get_last();
 
         template<typename U>
-        friend std::ostream& operator<<(std::ostream &strm, const LinkedList<U>& l);
+        friend std::ostream& operator<<(std::ostream &strm, const linkedlist<U>& l);
 };
 
 template<class T>
