@@ -1,40 +1,40 @@
 #include <ostream>
 
 template<class T>
-class Node
+class node
 {
     public:
-        ~Node();
+        ~node();
         T data;
-        Node<T> *next;
-        Node<T> *prev;
-        Node(T data);
-        Node(T data, Node *next, Node *prev);
+        node<T> *next;
+        node<T> *prev;
+        node(T data);
+        node(T data, node *next, node *prev);
 };
 
 template<class T>
-Node<T>::Node(T data) : data {data}, next {nullptr}, prev {nullptr} {}
+node<T>::node(T data) : data {data}, next {nullptr}, prev {nullptr} {}
 
 template<class T>
-Node<T>::Node(T data, Node *next, Node *prev)
+node<T>::node(T data, node *next, node *prev)
         : data {data}, next {next}, prev {prev} {}
 
 template<class T>
-Node<T>::~Node() {}
+node<T>::~node() {}
 
 template<class T>
-class LinkedList
+class linkedlist
 {
     private:
         const char* const _LL_ERANGE = "Index out-of-bounds";
         unsigned int _size;
-        Node<T> *_head;
-        Node<T> *_tail;
-        Node<T> *_get(unsigned int index);
+        node<T> *_head;
+        node<T> *_tail;
+        node<T> *_get(unsigned int index);
         bool _outofrange(unsigned int index);
     public:
-        LinkedList();
-        ~LinkedList();
+        linkedlist();
+        ~linkedlist();
         unsigned int size();
         bool empty();
         void insert(T data, unsigned int index);
@@ -52,13 +52,13 @@ class LinkedList
 };
 
 template<class T>
-bool LinkedList<T>::_outofrange(unsigned int index)
+bool linkedlist<T>::_outofrange(unsigned int index)
 {
     return index < 0 || index > _size - 1;
 }
 
 template<class T>
-Node<T> *LinkedList<T>::_get(const unsigned int index)
+node<T> *linkedlist<T>::_get(const unsigned int index)
 {
     unsigned int mid = _size / 2;
     if (index < 0 || index > _size - 1) {
@@ -69,7 +69,7 @@ Node<T> *LinkedList<T>::_get(const unsigned int index)
         return _tail;
     } else if (index < mid) {
         unsigned int count = 0;
-        Node<T> *curr = this->_head;
+        node<T> *curr = this->_head;
         while (count != index) {
             curr = curr->next;
             count++;
@@ -77,7 +77,7 @@ Node<T> *LinkedList<T>::_get(const unsigned int index)
         return curr;
     } else {
         unsigned int count = _size - 1;
-        Node<T> *curr = this->_tail;
+        node<T> *curr = this->_tail;
         while (count != index) {
             curr = curr->prev;
             count--;
@@ -87,7 +87,7 @@ Node<T> *LinkedList<T>::_get(const unsigned int index)
 }
 
 template<class T>
-LinkedList<T>::LinkedList()
+linkedlist<T>::linkedlist()
 {
     _size = 0;
     _head = nullptr;
@@ -95,10 +95,10 @@ LinkedList<T>::LinkedList()
 }
 
 template<class T>
-LinkedList<T>::~LinkedList()
+linkedlist<T>::~linkedlist()
 {
-    Node<T>* curr = _head;
-    Node<T>* next;
+    node<T>* curr = _head;
+    node<T>* next;
     while (curr != nullptr) {
         next = curr->next;
         delete curr;
@@ -107,42 +107,42 @@ LinkedList<T>::~LinkedList()
 }
 
 template<class T>
-unsigned int LinkedList<T>::size()
+unsigned int linkedlist<T>::size()
 {
     return _size;
 }
 
 template<class T>
-bool LinkedList<T>::empty()
+bool linkedlist<T>::empty()
 {
     return _size <= 0;
 }
 
 template<class T>
-void LinkedList<T>::insert(T data, unsigned int index)
+void linkedlist<T>::insert(T data, unsigned int index)
 {
     if (_outofrange(index) && index > _size) {
         throw std::out_of_range(_LL_ERANGE);
     }
 
     if (_size == 0) {
-        Node<T> *new_node = new Node<T>(data);
+        node<T> *new_node = new node<T>(data);
         _head = new_node;
         _tail = new_node;
     } else if (index == 0) {
-        Node<T> *new_node = new Node<T>(data);
+        node<T> *new_node = new node<T>(data);
         _head->prev = new_node;
         new_node->next = _head;
         _head = new_node;
     } else if (index == _size) {
-        Node<T> *new_node = new Node<T>(data);
+        node<T> *new_node = new node<T>(data);
         _tail->next = new_node;
         new_node->prev = _tail;
         _tail = new_node;
     } else {
-        Node<T> *new_node = new Node<T>(data);
-        Node<T> *at = _get(index);
-        Node<T> *before = at->prev;
+        node<T> *new_node = new node<T>(data);
+        node<T> *at = _get(index);
+        node<T> *before = at->prev;
         before->next = new_node;
         at->prev = new_node;
         new_node->next = at;
@@ -153,43 +153,43 @@ void LinkedList<T>::insert(T data, unsigned int index)
 }
 
 template<class T>
-void LinkedList<T>::insert_first(T data)
+void linkedlist<T>::insert_first(T data)
 {
     insert(data, 0);
 }
 
 template<class T>
-void LinkedList<T>::insert_last(T data)
+void linkedlist<T>::insert_last(T data)
 {
     insert(data, _size);
 }
 
 template<class T>
-void LinkedList<T>::remove(unsigned int index)
+void linkedlist<T>::remove(unsigned int index)
 {
     if (_outofrange(index)) {
         throw std::out_of_range(_LL_ERANGE);
     }
 
-    Node<T> *to_delete = _get(index);
+    node<T> *to_delete = _get(index);
 
     if (_size == 1) {
         delete _head;
         _head = nullptr;
         _tail = nullptr;
     } else if (index == 0) {
-        Node<T> *new_head = to_delete->next;
+        node<T> *new_head = to_delete->next;
         new_head->prev = nullptr;
         delete _head;
         _head = new_head;
     } else if (index == _size - 1) {
-        Node<T> *new_tail = to_delete->prev;
+        node<T> *new_tail = to_delete->prev;
         new_tail->next = nullptr;
         delete _tail;
         _tail = new_tail;
     } else {
-        Node<T> *before = to_delete->prev;
-        Node<T> *after = to_delete->next;
+        node<T> *before = to_delete->prev;
+        node<T> *after = to_delete->next;
         delete to_delete;
         before->next = after;
         after->prev = before;
@@ -198,42 +198,42 @@ void LinkedList<T>::remove(unsigned int index)
 }
 
 template<class T>
-void LinkedList<T>::remove_first()
+void linkedlist<T>::remove_first()
 {
     remove(0);
 }
 
 template<class T>
-void LinkedList<T>::remove_last()
+void linkedlist<T>::remove_last()
 {
     remove(_size - 1);
 }
 
 template<class T>
-T LinkedList<T>::get(const unsigned int index)
+T linkedlist<T>::get(const unsigned int index)
 {
     return _get(index)->data;
 }
 
 template<class T>
-T LinkedList<T>::get_first()
+T linkedlist<T>::get_first()
 {
     return get(0);
 }
 
 template<class T>
-T LinkedList<T>::get_last()
+T linkedlist<T>::get_last()
 {
     return get(_size - 1);
 }
 
 template<typename U>
-std::ostream& operator<<(std::ostream &strm, const LinkedList<U> &l)
+std::ostream& operator<<(std::ostream &strm, const linkedlist<U> &l)
 {
     if (l._size <= 0) {
         return strm << "[]";
     }
-    Node<U> *curr = l._head;
+    node<U> *curr = l._head;
     std::string contents;
     contents = std::to_string(curr->data);
 

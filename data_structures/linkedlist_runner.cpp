@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    LinkedList<int> l;
+    linkedlist<int> l;
     l.insert(1, 0); // 1
     l.insert(2, 0); // 2, 1
     l.insert(3, 0); // 3, 2, 1
