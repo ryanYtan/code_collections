@@ -1,0 +1,5 @@
+Given a list of all words in the English language, what is the longest possible
+word that you are able to write on a seven-segment display?
+
+Question source::
+Tom Scott -> https://www.youtube.com/watch?v=zp4BMR88260
