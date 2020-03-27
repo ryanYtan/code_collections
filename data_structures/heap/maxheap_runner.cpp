@@ -2,7 +2,8 @@
 #include <chrono>
 #include <iostream>
 #include <random>
-#include "heap.h"
+#include "maxheap.h"
+#include "../../lib_io/io.h"
 
 constexpr auto vsize = 20;
 
@@ -15,12 +16,14 @@ int main(void)
 
     std::vector<int> perm(vsize);
     for (int i = 0; i < vsize; i++)
-        perm[i] = i;
+        perm[i] = i + 1;
     std::shuffle(perm.begin(), perm.end(), rng);
 
     for (int i = 0; i < vsize; i++) {
         h.push(perm[i]);
     }
+
+    std::cout << "perm: " << vector_tostr(perm) << "\n";
 
     if (!h.empty()) {
         std::cout << "[" << h.extract_max();
