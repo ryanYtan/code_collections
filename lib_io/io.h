@@ -1,47 +1,44 @@
+#ifndef CCOLLECTIONS_IO_H_INCLUDED
+#define CCOLLECTIONS_IO_H_INCLUDED
 #include <algorithm>
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <string>
-#include <vector>
 
-const auto EEOF = std::string("EOF Reached");
+const auto MESSAGE_EEOF = std::string("EOF Reached");
 
-template<typename T>
+template<class T>
 T read()
 {
     T n;
     std::cin >> n;
-    if (std::cin.eof()) {
-        throw std::invalid_argument("read(): " + EEOF);
-    }
     return n;
 }
 
-template<typename T>
-std::vector<T> read_vector(const unsigned int how_many)
+template<class OutputIt>
+void read_values(size_t how_many, OutputIt start)
 {
-    std::vector<T> ret;
-    for (unsigned int i = 0; i < how_many; i++) {
-        ret.push_back(read<T>());
-        if (std::cin.eof()) {
-            throw std::invalid_argument("read_vector(): " + EEOF);
-        }
+    using ReadType = typename std::iterator_traits<OutputIt>::value_type;
+    for (size_t i = 0; i < how_many; i++) {
+        *start = read<ReadType>();
+        (void)start++;
     }
-    return ret;
 }
 
-template<typename T>
-std::string vector_tostr(std::vector<T> &v)
+template<class Container>
+std::string ctostr(const Container& con)
 {
-    if (v.empty()) {
-        return std::string("[]");
+    if (con.empty()) {
+        return "[]";
     }
-
-    std::ostringstream vts;
-    vts << "[";
-    std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(vts, ", "));
-    vts << v.back();
-    vts << "]";
-    return vts.str();
+    std::ostringstream ss;
+    ss << "[" << con[0];
+    for (size_t i = 1; i < con.size(); i++) {
+        ss << ", " << con[i];
+    }
+    ss << "]";
+    return ss.str();
 }
+
+#endif
