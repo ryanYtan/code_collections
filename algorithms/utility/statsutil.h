@@ -1,8 +1,6 @@
 /**
  * Statistics methods on linear containers such as list or vector.
  */
-#ifndef CCOLLECTIONS_STATISTICS_H_INCLUDED
-#define CCOLLECTIONS_STATISTICS_H_INCLUDED
 #include <algorithm>
 #include <iterator>
 #include <unordered_map>
@@ -155,5 +153,3 @@ namespace stats
         return sqrt(variance(first, last));
     }
 }
-
-#endif
