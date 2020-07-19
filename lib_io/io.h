@@ -27,7 +27,7 @@ void read_values(size_t how_many, OutputIt start)
 }
 
 template<class Container>
-std::string ctostr(const Container& con)
+std::string tostr(const Container& con)
 {
     if (con.empty()) {
         return "[]";
